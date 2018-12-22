@@ -9,7 +9,8 @@ from Load_Glove import word_embed_meta_data, create_test_data
 from config import siamese_config
 import pandas as pd
 
-from testing import make_test_data, read_neg_data, make_new_train_data, testing1
+#from testing import make_test_data, read_neg_data, make_new_train_data, testing1
+#from testing import make_test_data, testing1
 papers_list =[]
 from sklearn.utils import shuffle
 
@@ -28,7 +29,7 @@ def make_test_data():
 	
 	text1_pair = [(x1, x2) for x1, x2 in zip(text1, text2)]
 	return text1_pair
-'''
+
 
 def make_test_data():
 
@@ -53,12 +54,13 @@ def make_test_data():
 	#print(text_pair)	
 	return text_pair
 
+'''
 
 
-
-def data_make():
+def data_make(Dir_name):
 	k =0 
-	for root, dirs,files in os.walk('C50/C50test'):
+	print('In data make')
+	for root, dirs,files in os.walk(Dir_name):
 		if(k==0):
 			k = k+1
 			continue
@@ -79,12 +81,12 @@ def data_make():
 	auth_list =[]
 	for item in papers_list :
 		auth = item['paper_id']
-		print(auth)
+		#print('auth',auth)
 		auth1 = auth.split('/')
 		auth_list.append(auth1[2])
 
 	#print(auth_list)
-	print(len(papers_list))
+	#print(len(papers_list))
 
 	text1=[]
 	text2 = []
@@ -102,13 +104,13 @@ def data_make():
 				class1.append(1)
 
 
-
+	'''
 	print(len(text1))
 	print(len(text2))
 	print(len(class1))
-		
+	'''	
 	num = 20
-	num_folder = 20
+	num_folder = 10
 	num_pair = num *(num_folder-1)
 	text1_pair = [(x1, x2) for x1, x2 in zip(text1, text2)]
 	print(len(text1_pair))
@@ -136,7 +138,7 @@ def data_make():
 	#print(papers_list)
 	
 	text_pair = [(x1, x2) for x1, x2 in zip(text11, text12)]
-	print(len(text_pair))
+	#print(len(text_pair))
 	#print("for no class ", text_pair)
 	final_text_list = []
 	i = 0
@@ -161,12 +163,12 @@ def data_make():
 		i=j+1
 			
 	#print('final list of no class', final_text_list)
-	print(len(final_text_list))
-	print(len(text1_pair))
+	#print(len(final_text_list))
+	#print(len(text1_pair))
 	mergedlist = final_text_list + text1_pair
-	print(len(mergedlist))
+	#print(len(mergedlist))
 	mergedclass = class1+class12
-	print(len(mergedclass))
+	#print(len(mergedclass))
 	#print(mergedclass)
 	#random.shuffle(mergedclass)
 	mergedclass, mergedlist = shuffle(mergedclass, mergedlist, random_state=0)
@@ -179,8 +181,8 @@ def data_make():
 		text_list11.append(mergedlist[i][0])
 		text_list12.append(mergedlist[i][1])
 	
-	print(len(text_list11))
-	print(len(text_list12))
+	#print(len(text_list11))
+	#print(len(text_list12))
 	return  text_list11, text_list12, mergedclass, mergedlist
 	
 	
@@ -188,7 +190,7 @@ k=0
 
 
 
-sentences1, sentences2, is_similar, sentences_pair = data_make()
+sentences1, sentences2, is_similar, sentences_pair = data_make('C50/C50train')
 '''
 print(sentences_pair[0][0])
 
@@ -231,7 +233,7 @@ CONFIG.number_dense_units = siamese_config['NUMBER_DENSE_UNITS']
 CONFIG.activation_function = siamese_config['ACTIVATION_FUNCTION']
 CONFIG.rate_drop_dense = siamese_config['RATE_DROP_DENSE']
 CONFIG.validation_split_ratio = siamese_config['VALIDATION_SPLIT']
-print('go to siamese')
+print('go to siamese train')
 siamese = SiameseBiLSTM(CONFIG.embedding_dim , CONFIG.max_sequence_length, CONFIG.number_lstm_units , CONFIG.number_dense_units, CONFIG.rate_drop_lstm, CONFIG.rate_drop_dense, CONFIG.activation_function, CONFIG.validation_split_ratio)
 
 best_model_path = siamese.train_model(sentences_pair, is_similar, embedding_meta_data, model_save_directory='/home/mtp-2/Desktop/siamese paper/implementation')
@@ -243,12 +245,12 @@ from keras.models import load_model
 model = load_model(best_model_path)
 
 #test_sentence_pairs = [('What can make Physics easy to learn? I am going to learn physis. I love it.','How can you make physics easy to learn? Physics is my love and i will learn it.'),('How many times a day do a clocks hands overlap? This clock is very lovely.','What does it mean that every time I look at the clock the numbers are the same? Clock looks beautiful.')]
-results, preds = testing1(best_model_path)
-
+#testing1(best_model_path)
+'''
 print(results)
 
 print(preds)
-'''
+
 
 test_pairs = make_test_data()
 test_data_x1, test_data_x2, leaks_test = create_test_data(tokenizer,test_pairs,  siamese_config['MAX_SEQUENCE_LENGTH'])
