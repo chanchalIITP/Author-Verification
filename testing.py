@@ -36,11 +36,11 @@ model = load_model(best_model_path)
 
 def read_neg_data():
 	text22 =[]
-	f1 = open('C50/29059newsML.txt', 'r')
+	f1 = open('29059newsML.txt', 'r')
 	text22.append(f1.read())
-	f2 = open('C50/30089newsML.txt' , 'r')
+	f2 = open('30089newsML.txt' , 'r')
 	text22.append(f2.read())
-	f3 = open('C50/47025newsML.txt', 'r')
+	f3 = open('47025newsML.txt', 'r')
 	text22.append(f3.read())
 	#f4 = open('C50/C50/C50test/KeithWeir/47027newsML.txt', 'r')
 	#text22.append(f4.read())
