@@ -31,7 +31,7 @@ from sklearn.utils import shuffle
 
 
 
-best_model_path = 'implementationcheckpoints/1544514786/lstm_50_200_0.17_0.25.h5'
+best_model_path = 'lstm_50_200_0.17_0.25.h5'
 model = load_model(best_model_path)
 
 def read_neg_data():
