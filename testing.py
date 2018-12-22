@@ -91,8 +91,8 @@ def make_new_train_data():
 	classes = class1+class2
 	#print(text2)
 	text_pair = [(x1, x2) for x1, x2 in zip(texts, texts1)]
-	print('text_pairs', text_pair)
-	print('classes', classes)
+	#print('text_pairs', text_pair)
+	#print('classes', classes)
 	#print(text_pair)	
 	return texts, texts1, classes, text_pair
 
@@ -140,7 +140,7 @@ def testing1(best_model_path ):
 
 	test_pair = make_test_data()
 
-	print('sentences1' , sentences1)
+	#print('sentences1' , sentences1)
 	tokenizer, embedding_matrix = word_embed_meta_data(sentences1 + sentences2,  siamese_config['EMBEDDING_DIM'])
 
 	embedding_meta_data = {
@@ -162,13 +162,13 @@ def testing1(best_model_path ):
 	CONFIG.activation_function = siamese_config['ACTIVATION_FUNCTION']
 	CONFIG.rate_drop_dense = siamese_config['RATE_DROP_DENSE']
 	CONFIG.validation_split_ratio = siamese_config['VALIDATION_SPLIT']
-	print('go to siamese')
+	#print('go to siamese')
 	siamese = SiameseBiLSTM(CONFIG.embedding_dim , CONFIG.max_sequence_length, CONFIG.number_lstm_units , CONFIG.number_dense_units, CONFIG.rate_drop_lstm, CONFIG.rate_drop_dense, CONFIG.activation_function, CONFIG.validation_split_ratio)
 
 
 	best_model_path = siamese.update_model(best_model_path, train_pair, class1, embedding_meta_data)
 
-	print(best_model_path)
+	#print(best_model_path)
 	from operator import itemgetter
 	from keras.models import load_model
 
@@ -181,17 +181,17 @@ def testing1(best_model_path ):
 	preds = list(model.predict([test_data_x1, test_data_x2, leaks_test], verbose=1).ravel())
 	results = [(x, y, z) for (x, y), z in zip(test_pair, preds)]
 	results.sort(key=itemgetter(2), reverse=True)
-	print(results)
+	#print(results)
 
-	print(preds)
+	#print(preds)
 	return results, preds
 
 
 results, preds = testing1(best_model_path)
 
-print(results)
+#print(results)
 
-print(preds)
+#print(preds)
 
 
 labels = []
@@ -203,8 +203,8 @@ for i in range(0, len(preds)):
 
 
 
-print(preds)
-print(labels)
+#print(preds)
+#print(labels)
 
 
 
