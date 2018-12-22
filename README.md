@@ -1,4 +1,7 @@
 # Author-Verification
+this code is works well for python 2.7.15
+
+for training just run python Data_classify.py
 
 Run the following code to get the result, 
 
