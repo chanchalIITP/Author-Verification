@@ -19,17 +19,13 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 
 def create_embedding_matrix(tokenizer, embedding_dim):
     """
-    Create embedding matrix containing word indexes and respective vectors from word vectors
-    Args:
-        tokenizer (keras.preprocessing.text.Tokenizer): keras tokenizer object containing word indexes
-        word_vectors (dict): dict containing word and their respective vectors
-        embedding_dim (int): dimention of word vector
-
-    Returns:
-
+    This function create embedding matrix containing word indexes and respective vectors from word vectors
+    Its arguments are :
+    tokenizer: It is a keras tokenizer object containing word indexes
+    embedding_dim (int): dimention of word vector
+    It returns embedding matrix
     """
     nb_words = len(tokenizer.word_index) + 1
-    print(' no. of words ', nb_words)
     word_index = tokenizer.word_index
     embedding_matrix = np.zeros((nb_words, embedding_dim))
     print("Embedding matrix shape: %s" % str(embedding_matrix.shape))
@@ -38,21 +34,15 @@ def create_embedding_matrix(tokenizer, embedding_dim):
         embedding_vector = word_vectors[glove, word]
         if embedding_vector is not None:
             embedding_matrix[i] = embedding_vector
-    print('Null word embeddings: %d' % np.sum(np.sum(embedding_matrix, axis=1) == 0))
     return embedding_matrix
 
 
 def word_embed_meta_data(documents, embedding_dim):
     """
-    Load tokenizer object for given vocabs list
-    Args:
-        documents (list): list of document
-
-    Returns:
-        tokenizer (keras.preprocessing.text.Tokenizer): keras tokenizer object
-        embedding_matrix (dict): dict with word_index and vector mapping
+    This function loads tokenizer object for given vocabs list
+    It takes a list of documents and the embedding dimension as argument.
+    It returns tokenizer (keras.preprocessing.text.Tokenizer): keras tokenizer object and embedding_matrix (dict): dict with word_index and vector mapping
     """
-    print(documents[0])
     tokenizer = Tokenizer(split=' ')
     tokenizer.fit_on_texts(documents)
     print(len(documents))
@@ -63,33 +53,32 @@ def word_embed_meta_data(documents, embedding_dim):
 
 def create_train_dev_set(tokenizer, sentences_pair, is_similar, max_sequence_length, validation_split_ratio):
     """
-    Create training and validation dataset
-    Args:
-        tokenizer (keras.preprocessing.text.Tokenizer): keras tokenizer object
-        sentences_pair (list): list of tuple of sentences pairs
-        is_similar (list): list containing labels if respective sentences in sentence1 and sentence2
-                           are same or not (1 if same else 0)
-        max_sequence_length (int): max sequence length of sentences to apply padding
-        validation_split_ratio (float): contain ratio to split training data into validation data
-
-    Returns:
-        train_data_1 (list): list of input features for training set from sentences1
-        train_data_2 (list): list of input features for training set from sentences2
-        labels_train (np.array): array containing similarity score for training data
-        leaks_train(np.array): array of training leaks features
-
-        val_data_1 (list): list of input features for validation set from sentences1
-        val_data_2 (list): list of input features for validation set from sentences1
-        labels_val (np.array): array containing similarity score for validation data
-        leaks_val (np.array): array of validation leaks features
+    This function creates training and validation dataset
+    Its arguments are
+    1. tokenizer: keras tokenizer object
+    2. sentences_pair (list): list of tuple of text pairs
+    3. is_similar (list): list containing labels if respective texts in text11 and text2
+       are written by same author or not (1 if same else 0)
+    4. max_sequence_length (int): max sequence length of texts for padding
+    5. validation_split_ratio (float): contain ratio to split training data into validation data
+    It returns: 
+    1. train_data_1 (list): list of input features for training set from text1
+    2. train_data_2 (list): list of input features for training set from text2
+    3. labels_train (np.array): array containing similarity score for training data
+    4. leaks_train(np.array): array of training leaks features
+    5. val_data_1 (list): list of input features for validation set from text1
+    6. val_data_2 (list): list of input features for validation set from text2
+    7. labels_val (np.array): array containing similarity score for validation data
+    8. leaks_val (np.array): array of validation leaks features
     """
     sentences1 = [x[0] for x in sentences_pair]
     sentences2 = [x[1] for x in sentences_pair]
+    #In sentences1 and sentences2 the corresponding senteces are stored.
     train_sequences_1 = tokenizer.texts_to_sequences(sentences1)
     train_sequences_2 = tokenizer.texts_to_sequences(sentences2)
     leaks = [[len(set(x1)), len(set(x2)), len(set(x1).intersection(x2))]
              for x1, x2 in zip(train_sequences_1, train_sequences_2)]
-
+    #Leaks represent the text pairs in which both text1 and text2 are same.
     train_padded_data_1 = pad_sequences(train_sequences_1, maxlen=max_sequence_length)
     train_padded_data_2 = pad_sequences(train_sequences_2, maxlen=max_sequence_length)
     train_labels = np.array(is_similar)
@@ -102,7 +91,7 @@ def create_train_dev_set(tokenizer, sentences_pair, is_similar, max_sequence_len
     leaks_shuffled = leaks[shuffle_indices]
 
     dev_idx = max(1, int(len(train_labels_shuffled) * validation_split_ratio))
-
+    #getting index for shuffling the data
     del train_padded_data_1
     del train_padded_data_2
     gc.collect()
@@ -117,15 +106,13 @@ def create_train_dev_set(tokenizer, sentences_pair, is_similar, max_sequence_len
 
 def create_test_data(tokenizer, test_sentences_pair, max_sequence_length):
     """
-    Create training and validation dataset
-    Args:
-        tokenizer (keras.preprocessing.text.Tokenizer): keras tokenizer object
-        test_sentences_pair (list): list of tuple of sentences pairs
-        max_sequence_length (int): max sequence length of sentences to apply padding
-
-    Returns:
-        test_data_1 (list): list of input features for training set from sentences1
-        test_data_2 (list): list of input features for training set from sentences2
+    It creates training and validation dataset
+    Its arguments are tokenizer: keras tokenizer object
+        test_sentences_pair: list of tuple of sentences pairs
+        max_sequence_length: max sequence length of sentences to apply padding
+    It returns 
+        test_data_1 (list): list of input features for training set from text1
+        test_data_2 (list): list of input features for training set from text2
     """
     test_sentences1 = [x[0] for x in test_sentences_pair]
     test_sentences2 = [x[1] for x in test_sentences_pair]
