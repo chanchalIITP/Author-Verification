@@ -14,29 +14,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 import pickle
 from gensim.parsing.preprocessing import preprocess_string
 from nltk.tokenize import sent_tokenize, word_tokenize
-'''
-def train_word2vec(documents, embedding_dim):
-    """
-    train word2vector over traning documents
-    Args:
-        documents (list): list of document
-        min_count (int): min count of word in documents to consider for word vector creation
-        embedding_dim (int): outpu wordvector size
-    Returns:
-        word_vectors(dict): dict containing words and their respective vectors
-    """
-    print('document si s',documents[0])
-    data = word_tokenize(documents)
-    model = Word2Vec(data, min_count=1)
-    #model.train(documents, total_examples=len(documents), epochs=10)
-    #model = Word2Vec(documents, min_count=1, size=embedding_dim)
-    print('word vector trained')
-    word_vectors = model.wv
-    print(list(word_vectors.wv.vocab))
-    #del model
-    print('limited', word_vectors['limited'])
-    return word_vectors
-'''
 
 
 
@@ -77,16 +54,8 @@ def word_embed_meta_data(documents, embedding_dim):
     """
     print(documents[0])
     tokenizer = Tokenizer(split=' ')
-    # new_doc = " ".join(documents)
-    #print(new_doc[0])
-    #tokenizer.fit_on_texts(" ".join(documents))
-    #new_doc = ['this is a boy.', 'this was a mango.']
     tokenizer.fit_on_texts(documents)
-    #print(documents)
-    # print(tokenizer.word_counts)
     print(len(documents))
-
-    #word_vector = train_word2vec(documents, embedding_dim)
     embedding_matrix = create_embedding_matrix(tokenizer embedding_dim)
     return tokenizer, embedding_matrix
 
