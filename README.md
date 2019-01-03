@@ -4,6 +4,7 @@ Author verification is a problem of verifying whether two documents belong to th
 We have used siamese network for author verification. C50 data-set is used as the data-set for author verification.We have re-created the data-set as per siamese network requirement.
 
 text1, text2, class
+
 e.g : text11, text21, YES
       text12, text22, NO
       text13, text23, YES
