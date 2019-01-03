@@ -6,9 +6,7 @@ We have used siamese network for author verification. C50 data-set is used as th
 text1, text2, class
 
 e.g : text11, text21, YES
-
       text12, text22, NO
-      
       text13, text23, YES
       
 In this way, we have used the documents of same author as class label YES, and for other authors the class label is assigned as NO.
