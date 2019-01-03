@@ -184,7 +184,7 @@ def making_Yes_NO(preds):
 	return labels
 
 
-def comp_labels(labels)
+def comp_labels(labels):
 	for i in range(0, len(labels)):
 		if(labels[i] == 1):
 			print(' according to document ', i, 'the result is yes')
