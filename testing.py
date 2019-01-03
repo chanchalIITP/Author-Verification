@@ -76,7 +76,7 @@ def make_new_train_data():
 	class2 = []
 	for i in range(0, len(text)):
 		for j in range(0, len(neg_text)):
-			text21.append(text1[i])
+			text21.append(text[i])
 			text22.append(neg_text[j])
 			class2.append(0)
 	#appending the both class's corresponding pair 	
