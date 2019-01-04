@@ -81,8 +81,8 @@ class SiameseBiLSTM:
 
         # Merging two LSTM encodes vectors from sentences to
         # pass it to dense layer applying dropout and batch normalisation
-	#print('x1 is ', x1[0])
-	#print('x2 is ', x2[0])
+    #print('x1 is ', x1[0])
+    #print('x2 is ', x2[0])
         merged = concatenate([x1, x2, leaks_dense])
         merged = BatchNormalization()(merged)
         merged = Dropout(self.rate_drop_dense)(merged)
@@ -112,11 +112,11 @@ class SiameseBiLSTM:
                   validation_data=([val_data_x1, val_data_x2, leaks_val], val_labels),
                   epochs=100, batch_size=64, shuffle=True,
                   callbacks=[early_stopping, model_checkpoint, tensorboard])
-	
+    
 
-	pred = model.predict([val_data_x1, val_data_x2, leaks_val])
-	print(pred)
-	
+        pred = model.predict([val_data_x1, val_data_x2, leaks_val])
+        print(pred)
+        
         return bst_model_path
 
 
@@ -144,22 +144,22 @@ class SiameseBiLSTM:
                                                                                self.validation_split_ratio)
         model = load_model(saved_model_path)
         model_file_name = saved_model_path.split('/')[-1]
-	print('model file name', model_file_name)
-	print(saved_model_path.split('/')[:-2])
-	print(str(int(time.time())))
+        print('model file name', model_file_name)
+        print(saved_model_path.split('/')[:-2])
+        print(str(int(time.time())))
         new_model_checkpoint_path  = saved_model_path + str(int(time.time())) + '/' 
 
         new_model_path = new_model_checkpoint_path + model_file_name
         model_checkpoint = ModelCheckpoint(new_model_checkpoint_path + model_file_name,
-                                           save_best_only=True, save_weights_only=False)
+                                            save_best_only=True, save_weights_only=False)
 
         early_stopping = EarlyStopping(monitor='val_loss', patience=3)
 
         tensorboard = TensorBoard(log_dir=new_model_checkpoint_path + "logs/{}".format(time.time()))
 
         model.fit([train_data_x1, train_data_x2, leaks_train], train_labels,
-                  validation_data=([val_data_x1, val_data_x2, leaks_val], val_labels),
-                  epochs=10, batch_size=3, shuffle=True,
-                  callbacks=[early_stopping, model_checkpoint, tensorboard])
-	print('model fitted')
+                    validation_data=([val_data_x1, val_data_x2, leaks_val], val_labels),
+                    epochs=10, batch_size=3, shuffle=True,
+                    callbacks=[early_stopping, model_checkpoint, tensorboard])
+        print('model fitted')
         return new_model_path
