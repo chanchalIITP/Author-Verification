@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="train" id="texts" multiple>
+    <button type="submit" class="btn btn-info" style="color:black;">Upload Train Data</button>
+    <br>
+    <hr>
+    <input type="file" name="test" id="test">
+    <button type="submit" class="btn btn-info" style="color:black;">Upload Test Data</button>
+</form>
+{% endblock content %}

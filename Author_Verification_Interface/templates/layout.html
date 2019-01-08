@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>Lost & Found</title>
+    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ </head>
+
+<body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="font-size: 18px;color:white">MyFlaskApp</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="/" style="font-size: 18px;color:white">Home</a></li>
+                <li><a href="/about" style="font-size: 18px;color:white">About</a></li>
+                <li><a href="/upload_data" style="font-size: 18px;color:white">Upload</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right"> 
+                {% if session.logged_in %}
+                <li><a href="/dashboard"><span class="glyphicon glyphicon-user" style="font-size: 18px;color:white"></span style="font-size: 18px;color:white"> Dashboard </a></li>
+                    <li><a href="/logout"><span class="glyphicon glyphicon-log-in" style="font-size: 18px;color:white"></span style="font-size: 18px;color:white"> Logout </a></li>
+                {% else %}
+                    <li><a href="/login"><span class="glyphicon glyphicon-log-in" style="font-size: 18px;color:white"></span style="font-size: 18px;color:white"> Login </a></li>
+                <li><a href="/registerform"><span class="glyphicon glyphicon-user" style="font-size: 18px;color:white; vertical-align: text-bottom;"></span> Sign Up</a></li>
+                
+                {% endif %}
+                
+                <!-- <li><a href=""><span class="glyphicon glyphicon-log-in" style="font-size: 18px;color:white"></span style="font-size: 18px;color:white"> Login</a></li> -->
+            </ul>
+        </div>
+    </nav>
+    
+
+    <div class="container">
+        <div>
+            {% include 'includes/_messages.html' %}
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+    <script src="//cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
+    <script type="text/javascript">
+        CKEDITOR.replace("editor")
+    </script>
+</body>
+
+</html>

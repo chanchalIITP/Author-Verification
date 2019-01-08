@@ -1,0 +1,77 @@
+Stock Archives
+[Problem Statement]
+
+Develop a pseudo Full Stack Web Application for Stock Archives. A data dump is provided which contains the stocks related historical data from 2005 - 2016. Your web app should be an archive of historical stocks trading data. Users should be able to view history of desired stock prices for any point in time.
+
+ 
+
+[Ideal Behaviour]
+
+On Back End:
+
+— Write a backend which exports APIs with all the data provided in the dump below.
+
+— Get all companies and their historical stock price related data from the provided dump file and store it in the database.
+
+— You have to fetch this stored data based on the requests received from the frontend.
+
+
+On Front End:
+
+— Your frontend should be able to list all the archived data on the UI.
+
+— Your frontend should be able to query historical data for desired stocks.
+
+— Your frontend should display detailed company and stock info provided in the dump.
+
+
+[Minimum Requirement]
+
+— Write a backend in tech stack mentioned below which exposes some APIs to render data, which is requested from the frontend.
+
+
+On Front End:
+
+— Display best performing stocks by default.
+
+— Provide functionality to call stock details by name or ticker(symbol).
+
+— Make an API call and demonstrate details of stocks.
+
+
+On Back end:
+
+— Store all the data provided in the dump file in your database.
+
+— Render all the requested data over network via REST call.
+
+— Zip all your source code, deployment instructions, screenshots and upload them.
+
+
+
+[Extra Work]
+
+Along with everything from the above level:
+
+— Implement a functionality to fetch stock details by name/ticker.
+
+— When clicked on a listed stock, show detailed information about it. With the detailed history of its value fluctuations over time.
+
+— Use your imagination and add features which would make things easier for end users.
+
+— Zip all your source code, deployment instruction, db dump file, screenshots and upload them.
+
+
+
+[Guide]
+
+Stock Archives Data dump: http://hck.re/CPKVPp
+
+
+[Ideal Stack]
+
+Frontend: Angular, React, VueJS
+
+Backend: Java Enterprise, Python - Django, Node - Express, .Net
+
+Db : Mysql, MongoDB, PostgreSQL
