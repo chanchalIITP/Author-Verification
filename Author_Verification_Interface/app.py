@@ -12,7 +12,8 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 from werkzeug.utils import secure_filename
 import os
-from interface_model_link import taking_majority
+from interface_model_link import taking_majority, testing1, making_Yes_NO, comp_labels
+from keras.models import load_model
 
 ALLOWED_EXTENSIONS = set(['txt'])
 
@@ -294,6 +295,20 @@ def upload_data():
         return redirect(url_for("upload_data"))
 
     return render_template("upload_data.html")
+
+#predicting the output
+@app.route('/api', methods=['GET', 'POST'])
+def predict():
+    best_model_path = 'lstm_50_200_0.17_0.25.h5' 
+    #model = load_model(best_model_path)
+    results, preds = testing1(best_model_path)
+    labels = making_Yes_NO(preds)
+    comp_labels(labels)
+    string_result = taking_majority(labels)
+    s = dict()
+    s['result'] = string_result
+
+    return render_template('predict.htm', s=s)
 
 if __name__ == '__main__':
     app.secret_key = "secret123"
