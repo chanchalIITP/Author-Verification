@@ -128,7 +128,7 @@ def make_test_data():
         if file.endswith('.txt'):
             filepath = os.path.join(test_data_path, file)
             with open(filepath, "r") as f:
-                contents.append(f.read())
+                contents = f.read()
     for i in range(0, num_documents-1):
         text2.append(contents)
     #print(text2)
@@ -201,54 +201,51 @@ def testing1(best_model_path):
     return results, preds
 
 
-results, preds = testing1(best_model_path)
-
-#print(results)
-
-#print(preds)
-
-
-labels = []
-for i in range(0, len(preds)):
-    if(preds[i] >= 0.5):
-        labels.append(1)
-    else:
-        labels.append(0)
+def making_Yes_NO(preds):
+    labels = []
+    for i in range(0, len(preds)):
+        if(preds[i] >= 0.5):
+            labels.append(1)
+        else:
+            labels.append(0)
+    return labels
 
 
-#print(preds)
-#print(labels)
+def comp_labels(labels):
+    for i in range(0, len(labels)):
+        if(labels[i] == 1):
+            print(' according to document ', i, 'the result is yes')
+        else:
+            print(' according to document ', i, 'the result is no')
 
 
 def taking_majority(labels):
     count_0 = 0
     count_1 = 0
-    result = ""
     for label in labels:
         if label == 1:
             count_1 = count_1+1
         else:
             count_0 = count_0+1
 
-    print('Accordint to ', count_1,
-          ' documents the unknown document belongs to the same author.')
-    print('Accordint to ', count_0,
-          ' documents the unknown docuemnt does not belong to the same author.')
+    print('According to ', count_1,
+          ' document the unknown document belongs to the same author.')
+    print('According to ', count_0,
+          ' document the unknown docuemnt does not belong to the same author.')
 
     if(count_1 >= 1):
-        result = 'the final result say yes'
-        print('the final result say yes')
+        return ('the final result say yes')
+         
     else:
-        result = 'the final result say yes'
-        print('The final result say no.')
-    return result
+        return('The final result say no.')
 
 
-for i in range(0, len(labels)):
-    
-    if(labels[i] == 1):
-        print(' according to document ', i, 'the result is yes')
-    else:
-        print(' according to document ', i, 'the result is no')
+def main():
+    results, preds = testing1(best_model_path)
+    labels = making_Yes_NO(preds)
+    comp_labels(labels)
+    taking_majority(labels)
 
-taking_majority(labels)
+
+if __name__ == "__main__":
+    main()
