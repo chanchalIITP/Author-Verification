@@ -10,7 +10,7 @@ RATE_DROP_DENSE = 0.25
 NUMBER_LSTM = 50
 NUMBER_DENSE_UNITS = 200
 ACTIVATION_FUNCTION = 'relu'
-
+# just declaring the hyper parameters value
 
 siamese_config = {
 	'EMBEDDING_DIM': EMBEDDING_DIM,
