@@ -5,7 +5,9 @@ import bcolz
 import numpy as np
 import pickle
 vectors = bcolz.carray(np.zeros(1), rootdir='glove.6B/6B.100.dat', mode='w')
-
+'''
+This file makes a pickle file after reading the Glove word file, so that at the time of finding words, we can access vectors from pickle file faster.
+'''
 with open('glove.6B/glove.6B.100d.txt', 'rb') as f:
     for l in f:
         line = l.decode('utf-8').split()
