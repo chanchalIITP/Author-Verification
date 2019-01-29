@@ -81,18 +81,18 @@ class SiameseBiLSTM:
 
         # Merging two LSTM encodes vectors from sentences to
         # pass it to dense layer applying dropout and batch normalisation
-    #print('x1 is ', x1[0])
-    #print('x2 is ', x2[0])
-        merged = concatenate([x1, x2, leaks_dense])
-        merged = BatchNormalization()(merged)
+        #print('x1 is ', x1[0])
+        #print('x2 is ', x2[0])
+        merged = concatenate([x1, x2, leaks_dense])   # merging each layers output
+        merged = BatchNormalization()(merged)   # normalizing
+        merged = Dropout(self.rate_drop_dense)(merged)  # applying drop out
+        merged = Dense(self.number_dense_units, activation=self.activation_function)(merged)   # putting it to the dense unit
+        merged = BatchNormalization()(merged)      
         merged = Dropout(self.rate_drop_dense)(merged)
-        merged = Dense(self.number_dense_units, activation=self.activation_function)(merged)
-        merged = BatchNormalization()(merged)
-        merged = Dropout(self.rate_drop_dense)(merged)
-        preds = Dense(1, activation='sigmoid')(merged)
+        preds = Dense(1, activation='sigmoid')(merged)   # final prediction
         model = Model(inputs=[sequence_1_input, sequence_2_input, leaks_input], outputs=preds)
         model.compile(loss='binary_crossentropy', optimizer='nadam', metrics=['acc'])
-
+        # using binary cross entropy as loss function and early stopping criteria
         early_stopping = EarlyStopping(monitor='val_loss', patience=3)
 
         STAMP = 'lstm_%d_%d_%.2f_%.2f' % (self.number_lstm_units, self.number_dense_units, self.rate_drop_lstm, self.rate_drop_dense)
@@ -107,15 +107,15 @@ class SiameseBiLSTM:
         model_checkpoint = ModelCheckpoint(bst_model_path, save_best_only=True, save_weights_only=False)
 
         tensorboard = TensorBoard(log_dir=checkpoint_dir + "logs/{}".format(time.time()))
-
+        # fitting the data to the model
         model.fit([train_data_x1, train_data_x2, leaks_train], train_labels,
                   validation_data=([val_data_x1, val_data_x2, leaks_val], val_labels),
                   epochs=100, batch_size=64, shuffle=True,
                   callbacks=[early_stopping, model_checkpoint, tensorboard])
     
-
-        pred = model.predict([val_data_x1, val_data_x2, leaks_val])
-        print(pred)
+       
+        #pred = model.predict([val_data_x1, val_data_x2, leaks_val])
+        #print(pred)
         
         return bst_model_path
 
